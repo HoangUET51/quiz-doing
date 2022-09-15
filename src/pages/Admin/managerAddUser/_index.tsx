@@ -10,7 +10,7 @@ const ManagerUser = () => {
       <div className="title">Manager User</div>
       <div className="content">
         <div className="table-content">
-          <AddNewModal show={show} handleShow={handleShow} setShow={setShow} />
+          <AddNewModal handleShow={handleShow} show={show} setShow={setShow} />
           <div>Table content</div>
         </div>
       </div>
