@@ -1,0 +1,28 @@
+import React from "react";
+
+const HomePage = () => {
+  return (
+    <>
+      <div className="homepage-container">
+        <video loop autoPlay muted>
+          <source
+            src="https://www.typeform.com/static/home-page/hero/video-1920.mp4"
+            type="video/mp4"
+          />
+        </video>
+      </div>
+      <div className="homepage-content">
+        <div className="title-1">There's a better way to ask</div>
+        <div className="title-2">
+          You don't want to make a boring form. And your audience won't answer
+          one. Create a typeform instead-and make everyone happy.
+        </div>
+        <div className="title-3">
+          <button className="btn-started">Get started-it's free</button>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default HomePage;
