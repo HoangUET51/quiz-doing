@@ -7,6 +7,7 @@ interface AddNewProps {
   handleShow: () => void;
   setShow: any;
 }
+
 const AddNewModal = (props: AddNewProps) => {
   const { show, handleShow, setShow } = props;
   const [email, setEmail] = useState<string>("");
@@ -35,7 +36,7 @@ const AddNewModal = (props: AddNewProps) => {
 
   const handleSubmit = async () => {
     let data = await PostApiCreate(email, password, name, role, image);
-    console.log(data);
+    console.log(data.DT);
   };
 
   return (

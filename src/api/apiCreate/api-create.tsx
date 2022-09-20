@@ -1,12 +1,18 @@
 import axios from "../common/api-customiz";
 
+export interface AxiosResponse<T = any, D = any> {
+  DT: T;
+  EC: number;
+  EM: string;
+}
+
 const PostApiCreate = (
   email: any,
   password: any,
   name: any,
   role: any,
   image: any
-) => {
+): Promise<AxiosResponse<any, any>> => {
   const data = new FormData();
   data.append("email", email);
   data.append("password", password);
