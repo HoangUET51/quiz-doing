@@ -11,7 +11,7 @@ const Admin = () => {
       <div className="admin-sidebar">
         <SideBar collapsed={collapsed} />
       </div>
-      <div className="admin-content">
+      <div className="admin-content w-full">
         <div className="admin-header">
           <FaBars onClick={() => setCollapsed(!collapsed)} />
         </div>

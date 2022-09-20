@@ -1,24 +1,17 @@
-import "react-pro-sidebar/dist/css/styles.css";
+import { DiReact } from "react-icons/di";
+import { FaGem, FaGithub, FaTachometerAlt } from "react-icons/fa";
 import {
-  ProSidebar,
   Menu,
   MenuItem,
-  SubMenu,
-  SidebarHeader,
-  SidebarFooter,
+  ProSidebar,
   SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SubMenu,
 } from "react-pro-sidebar";
-import {
-  FaTachometerAlt,
-  FaGem,
-  FaList,
-  FaGithub,
-  FaRegLaughWink,
-  FaHeart,
-} from "react-icons/fa";
-import { DiReact } from "react-icons/di";
-import sidebarBg from "../../../asset/img/bg2.jpg";
+import "react-pro-sidebar/dist/css/styles.css";
 import { Link } from "react-router-dom";
+import sidebarBg from "../../../asset/img/bg2.jpg";
 // import "./SideBar.scss";
 const SideBar = ({ collapsed, toggled, handleToggleSidebar }: any) => {
   return (
@@ -43,7 +36,7 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }: any) => {
               whiteSpace: "nowrap",
             }}
           >
-            <DiReact size={"3em"} color={"00bfff"} />
+            <DiReact size={"3em"} color={"00bfff"} className="inline-block" />
             Doing Quiz
           </div>
         </SidebarHeader>
