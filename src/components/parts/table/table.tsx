@@ -3,15 +3,7 @@ import Table from "react-bootstrap/Table";
 import { GetApiUsers } from "../../../api/apiCreate/api-create";
 
 function TableUser() {
-  const [listUser, setListUser] = useState<any>([
-    {
-      id: "1",
-      email: "hoang1@gmail.com",
-      name: "Hoang1",
-      role: "USER",
-    },
-    { id: "2", email: "hoang2@gmail.com", name: "Hoang2", role: "ADMIN" },
-  ]);
+  const [listUser, setListUser] = useState<any>([]);
 
   useEffect(() => {
     getAllUsers();
@@ -19,7 +11,7 @@ function TableUser() {
 
   const getAllUsers = async () => {
     let res = await GetApiUsers();
-    console.log(res);
+    setListUser(res.DT);
   };
   return (
     <Table striped bordered hover>
@@ -38,7 +30,7 @@ function TableUser() {
           listUser.map((user: any, index: any) => (
             <tr key={`tabel-${index}`}>
               <td>{index + 1}</td>
-              <td>{user.name}</td>
+              <td>{user.username}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>
             </tr>

@@ -23,7 +23,7 @@ const PostApiCreate = (
   return axios.post("api/v1/participant", data);
 };
 
-const GetApiUsers = () => {
+const GetApiUsers = (): Promise<AxiosResponse<any, any>> => {
   return axios.get("api/v1/participant/all");
 };
 

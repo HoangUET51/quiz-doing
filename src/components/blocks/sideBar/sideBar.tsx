@@ -22,6 +22,7 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }: any) => {
         toggled={toggled}
         breakPoint="md"
         onToggle={handleToggleSidebar}
+        className="!h-full"
       >
         <SidebarHeader>
           <div
