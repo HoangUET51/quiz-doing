@@ -2,6 +2,7 @@ import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { PostApiCreate } from "../../../api/apiCreate/api-create";
 import { Button } from "../../parts/button/button";
+import { toast } from "react-toastify";
 interface AddNewProps {
   show: any;
   handleShow: () => void;
@@ -36,7 +37,13 @@ const AddNewModal = (props: AddNewProps) => {
 
   const handleSubmit = async () => {
     let data = await PostApiCreate(email, password, name, role, image);
-    console.log(data.DT);
+
+    if (data && data.EC === 0) {
+      handleClose();
+      toast.success("Create data successfully");
+    } else if (data && data.EC !== 0) {
+      toast.error(data.EM);
+    }
   };
 
   return (
