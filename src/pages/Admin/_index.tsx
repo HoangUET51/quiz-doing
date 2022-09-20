@@ -3,6 +3,7 @@ import "../../styles/Admin.scss";
 import { FaBars } from "react-icons/fa";
 import { Outlet } from "react-router-dom";
 import SideBar from "../../components/blocks/sideBar/sideBar";
+import Toastify from "../../components/blocks/Toastify/Toastify";
 
 const Admin = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -19,6 +20,7 @@ const Admin = () => {
           <Outlet />
         </div>
       </div>
+      <Toastify />
     </div>
   );
 };
