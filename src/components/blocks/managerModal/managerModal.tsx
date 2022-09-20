@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
+import { useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import axios from "axios";
+import { PostApiCreate } from "../../../api/apiCreate/api-create";
+import { Button } from "../../parts/button/button";
 interface AddNewProps {
   show: any;
   handleShow: () => void;
@@ -34,25 +34,18 @@ const AddNewModal = (props: AddNewProps) => {
   };
 
   const handleSubmit = async () => {
-    const data = new FormData();
-    data.append("email", email);
-    data.append("password", password);
-    data.append("username", name);
-    data.append("role", role);
-    data.append("userImage", image);
-    let res = await axios.post(
-      "http://localhost:8081/api/v1/participant",
-      data
-    );
-
-    console.log(res);
+    let data = await PostApiCreate(email, password, name, role, image);
+    console.log(data);
   };
 
   return (
-    <>
-      <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
+    <div>
+      <Button
+        label="Launch demo modal"
+        width="180px"
+        className="mb-3"
+        onClick={handleShow}
+      />
 
       <Modal
         show={show}
@@ -107,7 +100,10 @@ const AddNewModal = (props: AddNewProps) => {
               </select>
             </div>
             <div className="col-md-12">
-              <label className="form-label" htmlFor="labelInput">
+              <label
+                className="form-label bg-[#e2e1e1] p-2 rounded cursor-pointer"
+                htmlFor="labelInput"
+              >
                 Upload File Image
               </label>
               <input
@@ -117,28 +113,28 @@ const AddNewModal = (props: AddNewProps) => {
                 onChange={(e) => handleImage(e)}
               />
             </div>
-            <div
-              className="col-md-12 border border-info rounded-4 text-center"
-              style={{ height: "200px" }}
-            >
+            <div className="col-md-12 border border-info rounded-4 text-center h-[200px] d-flex justify-center">
               {preview.length > 0 ? (
                 <img src={preview} style={{ height: "100%", width: "50%" }} />
               ) : (
-                <div>Preview Image</div>
+                <div className="d-flex justify-center items-center self-center">
+                  Preview Image
+                </div>
               )}
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={() => handleSubmit()}>
-            Save
-          </Button>
+          <Button
+            label="Close"
+            theme="secondary"
+            onClick={handleClose}
+            className="text-black"
+          />
+          <Button label="Save" onClick={() => handleSubmit()} />
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 };
 export default AddNewModal;
