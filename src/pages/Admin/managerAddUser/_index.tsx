@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AddNewModal from "../../../components/blocks/managerModal/managerModal";
-import TableUser from "../../../components/parts/table/table";
+import { TableUser } from "../../../components/parts/table/table";
 
 const ManagerUser = () => {
   const [show, setShow] = useState<any>(false);
@@ -13,7 +13,7 @@ const ManagerUser = () => {
         <div className="table-content">
           <AddNewModal handleShow={handleShow} show={show} setShow={setShow} />
         </div>
-        <div>
+        <div className="h-auto">
           <TableUser />
         </div>
       </div>

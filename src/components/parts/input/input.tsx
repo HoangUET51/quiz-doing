@@ -144,7 +144,7 @@ export function Input({
   return (
     <>
       <div
-        className={`box-border max-w-[400px] mt-2 w-full h-[36px] leading-[36px] text-[#666] ${className}`}
+        className={`box-border max-w-[400px] w-full h-[36px] leading-[36px] text-[#666] ${className}`}
         style={{ width }}
       >
         <input
