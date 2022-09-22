@@ -22,7 +22,7 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }: any) => {
         toggled={toggled}
         breakPoint="md"
         onToggle={handleToggleSidebar}
-        className="!h-full"
+        className=""
       >
         <SidebarHeader>
           <div
@@ -77,7 +77,7 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }: any) => {
               className="sidebar-btn"
               rel="noopener noreferrer"
             >
-              <FaGithub />
+              <FaGithub className="inline-block mr-1" />
               <span
                 style={{
                   whiteSpace: "nowrap",

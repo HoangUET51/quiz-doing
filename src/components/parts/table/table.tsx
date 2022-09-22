@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { GetApiUsers } from "../../../api/apiCreate/api-create";
 
-function TableUser() {
+export function TableUser() {
   const [listUser, setListUser] = useState<any>([]);
 
   useEffect(() => {
@@ -12,7 +12,9 @@ function TableUser() {
   const getAllUsers = async () => {
     let res = await GetApiUsers();
     setListUser(res.DT);
+    console.log("aloaloalo");
   };
+
   return (
     <Table striped bordered hover>
       <thead>
@@ -46,5 +48,3 @@ function TableUser() {
     </Table>
   );
 }
-
-export default TableUser;
