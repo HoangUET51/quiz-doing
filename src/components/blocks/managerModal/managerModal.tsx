@@ -1,45 +1,72 @@
-import React, { useContext, useState } from "react";
+import { Form, Formik, FormikContextType } from "formik";
+import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { PostApiCreate } from "../../../api/apiCreate/api-create";
-import { Button } from "../../parts/button/button";
 import { toast } from "react-toastify";
-import { Form, Formik, FormikContextType, useFormikContext } from "formik";
+import * as Yup from "yup";
+import { PostApiCreate, PutApiUser } from "../../../api/apiCreate/api-create";
+import { Button } from "../../parts/button/button";
 import { FormControl } from "../../parts/form-control/form-control";
 import { Input } from "../../parts/input/input";
-import * as Yup from "yup";
 interface AddNewProps {
   show: any;
   handleShow: () => void;
   setShow: any;
+  getAllUsers: () => void;
+  currentEditUser: any;
+  isModalUpdate: any;
+  setIsModalUpdate: any;
+  setCurrentEditUser: any;
+  isShowView: any;
+  setIsShowView: any;
 }
 
 interface InitialValueAdd {
   email: string;
   password: string;
-  name: string;
+  username: string;
 }
 
 const AddNewModal = (props: AddNewProps) => {
+  const [role, setRole] = useState<string>("USER");
+  const [image, setImage] = useState<string>("");
+  const [preview, setPreview] = useState<string>("");
   const formRef = React.createRef<FormikContextType<InitialValueAdd>>();
-
   const initialValues: InitialValueAdd = {
     email: "",
     password: "",
-    name: "",
+    username: "",
   };
-
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("Required field").email(),
     password: Yup.string()
       .required("Required field")
       .min(8, "Your password is too short."),
-    name: Yup.string().required("Required field"),
+    username: Yup.string().required("Required field"),
   });
+  const {
+    show,
+    handleShow,
+    setShow,
+    getAllUsers,
+    currentEditUser,
+    isModalUpdate,
+    setCurrentEditUser,
+    setIsModalUpdate,
+    isShowView,
+    setIsShowView,
+  } = props;
 
-  const { show, handleShow, setShow } = props;
-  const [role, setRole] = useState<string>("USER");
-  const [image, setImage] = useState<string>("");
-  const [preview, setPreview] = useState<string>("");
+  useEffect(() => {
+    if (currentEditUser) {
+      formRef.current?.resetForm({
+        values: {
+          email: currentEditUser.email,
+          password: currentEditUser.password,
+          username: currentEditUser.username,
+        },
+      });
+    }
+  }, [currentEditUser]);
 
   const handleClose = () => {
     setShow(false);
@@ -47,6 +74,10 @@ const AddNewModal = (props: AddNewProps) => {
     setImage("");
     setPreview("");
     formRef.current?.resetForm();
+    getAllUsers();
+    setCurrentEditUser({});
+    setIsModalUpdate(false);
+    setIsShowView(false);
   };
 
   const handleImage = (e: any) => {
@@ -57,10 +88,10 @@ const AddNewModal = (props: AddNewProps) => {
   };
 
   const handleSubmit = async () => {
-    const { email, password, name } = formRef.current
+    const { email, password, username } = formRef.current
       ?.values as InitialValueAdd;
 
-    let data = await PostApiCreate(email, password, name, role, image);
+    let data = await PostApiCreate(email, password, username, role, image);
     if (data && data.EC === 0) {
       handleClose();
       toast.success("Create data successfully");
@@ -68,6 +99,18 @@ const AddNewModal = (props: AddNewProps) => {
       toast.error(data.EM);
     }
   };
+
+  const handleBtnUpdateUser = async () => {
+    const { username } = formRef.current?.values as InitialValueAdd;
+    let dataEdit = await PutApiUser(currentEditUser.id, username, role, image);
+    if (dataEdit && dataEdit.EC === 0) {
+      handleClose();
+      toast.success("Update data successfully");
+    } else if (dataEdit && dataEdit.EC !== 0) {
+      toast.error(dataEdit.EM);
+    }
+  };
+
   return (
     <Formik
       enableReinitialize
@@ -95,7 +138,13 @@ const AddNewModal = (props: AddNewProps) => {
           dialogClassName="rounded-[10px]"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Add New User</Modal.Title>
+            <Modal.Title>
+              {isModalUpdate
+                ? isShowView
+                  ? "User Detail"
+                  : "Update User"
+                : "Add New User"}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <form className="row g-3">
@@ -103,6 +152,7 @@ const AddNewModal = (props: AddNewProps) => {
                 <FormControl name="email">
                   <label className="form-label">Email</label>
                   <Input
+                    disabled={isModalUpdate}
                     hasShadow={false}
                     width="w-full mt-0"
                     className="!max-w-full"
@@ -117,6 +167,7 @@ const AddNewModal = (props: AddNewProps) => {
                   <label className="form-label">Password</label>
                   <Input
                     type="password"
+                    disabled={isModalUpdate}
                     hasShadow={false}
                     width="w-full mt-0"
                     className="!max-w-full"
@@ -127,9 +178,10 @@ const AddNewModal = (props: AddNewProps) => {
                 </FormControl>
               </div>
               <div className="col-md-6">
-                <FormControl name="name">
+                <FormControl name="username">
                   <label className="form-label">User name</label>
                   <Input
+                    disabled={isShowView}
                     hasShadow={false}
                     width="w-full mt-0"
                     className="!max-w-full"
@@ -142,6 +194,7 @@ const AddNewModal = (props: AddNewProps) => {
               <div className="col-md-4">
                 <label className="form-label">Role</label>
                 <select
+                  disabled={isShowView}
                   className="form-select"
                   onChange={(e) => setRole(e.target.value)}
                 >
@@ -157,6 +210,7 @@ const AddNewModal = (props: AddNewProps) => {
                   Upload File Image
                 </label>
                 <input
+                  disabled={isShowView}
                   type="file"
                   hidden
                   id="labelInput"
@@ -181,7 +235,15 @@ const AddNewModal = (props: AddNewProps) => {
               onClick={handleClose}
               className="text-black"
             />
-            <Button label="Save" onClick={() => handleSubmit()} />
+            {isModalUpdate ? (
+              isShowView ? (
+                <></>
+              ) : (
+                <Button label="Update" onClick={handleBtnUpdateUser} />
+              )
+            ) : (
+              <Button label="Save" onClick={handleSubmit} />
+            )}
           </Modal.Footer>
         </Modal>
       </Form>

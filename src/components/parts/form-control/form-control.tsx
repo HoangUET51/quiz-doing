@@ -100,8 +100,6 @@ export function FormControl(props: FormControlProps) {
 
   const fieldProps = formik.getFieldProps(props.name);
 
-  console.log(fieldProps);
-
   const childrenWithProps = React.Children.map(props.children, (child) => {
     if (React.isValidElement(child)) {
       let checked = false;

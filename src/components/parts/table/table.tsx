@@ -1,20 +1,13 @@
-import { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
-import { GetApiUsers } from "../../../api/apiCreate/api-create";
-
-export function TableUser() {
-  const [listUser, setListUser] = useState<any>([]);
-
-  useEffect(() => {
-    getAllUsers();
-  }, []);
-
-  const getAllUsers = async () => {
-    let res = await GetApiUsers();
-    setListUser(res.DT);
-    console.log("aloaloalo");
-  };
-
+import { Button } from "../button/button";
+interface TableUserProps {
+  listUser: any[];
+  handleEditUser: (e: any) => void;
+  handleViewUser: (e: any) => void;
+  handleDeleteUser: (e: any) => void;
+}
+export function TableUser(props: TableUserProps) {
+  const { listUser, handleEditUser, handleViewUser, handleDeleteUser } = props;
   return (
     <Table striped bordered hover>
       <thead>
@@ -27,18 +20,30 @@ export function TableUser() {
         </tr>
       </thead>
       <tbody>
-        {listUser &&
-          listUser.length > 0 &&
-          listUser.map((user: any, index: any) => (
-            <tr key={`tabel-${index}`}>
+        {listUser.length ? (
+          listUser.map((user, index) => (
+            <tr key={index}>
               <td>{index + 1}</td>
               <td>{user.username}</td>
               <td>{user.email}</td>
               <td>{user.role}</td>
+              <td className="flex flex-row justify-center gap-3">
+                <Button label="View" onClick={() => handleViewUser(user)} />
+                <Button
+                  label="Edit"
+                  theme="secondary"
+                  onClick={() => handleEditUser(user)}
+                />
+                <Button
+                  label="Delete"
+                  theme="danger"
+                  onClick={() => handleDeleteUser(user.id)}
+                />
+              </td>
             </tr>
-          ))}
-        {listUser && listUser.length === 0 && (
-          <tr key={`table`}>
+          ))
+        ) : (
+          <tr>
             <td colSpan={5} className="text-center font-semibold">
               Not user table
             </td>
