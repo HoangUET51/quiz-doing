@@ -4,6 +4,8 @@ export interface AxiosResponse<T = any, D = any> {
   DT: T;
   EC: number;
   EM: string;
+  totalPages?: number;
+  totalRows?: number;
 }
 
 const PostApiCreate = (
@@ -27,6 +29,13 @@ const GetApiUsers = (): Promise<AxiosResponse<any, any>> => {
   return axios.get("api/v1/participant/all");
 };
 
+const GetApiUsersWithPanigate = (
+  page: any,
+  limit: any
+): Promise<AxiosResponse<any, any>> => {
+  return axios.get(`api/v1/participant?page=${page}&limit=${limit}`);
+};
+
 const PutApiUser = (
   id: any,
   name: any,
@@ -46,4 +55,10 @@ const DeleteUser = (id: any): Promise<AxiosResponse<any, any>> => {
   return axios.delete("api/v1/participant", { data: { id } });
 };
 
-export { PostApiCreate, GetApiUsers, PutApiUser, DeleteUser };
+export {
+  PostApiCreate,
+  GetApiUsers,
+  PutApiUser,
+  DeleteUser,
+  GetApiUsersWithPanigate,
+};

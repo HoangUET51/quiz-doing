@@ -11,7 +11,7 @@ interface AddNewProps {
   show: any;
   handleShow: () => void;
   setShow: any;
-  getAllUsers: () => void;
+  getListPanigate: () => void;
   currentEditUser: any;
   isModalUpdate: any;
   setIsModalUpdate: any;
@@ -47,7 +47,7 @@ const AddNewModal = (props: AddNewProps) => {
     show,
     handleShow,
     setShow,
-    getAllUsers,
+    getListPanigate,
     currentEditUser,
     isModalUpdate,
     setCurrentEditUser,
@@ -66,7 +66,7 @@ const AddNewModal = (props: AddNewProps) => {
         },
       });
     }
-  }, [currentEditUser]);
+  }, [currentEditUser, formRef]);
 
   const handleClose = () => {
     setShow(false);
@@ -74,8 +74,8 @@ const AddNewModal = (props: AddNewProps) => {
     setImage("");
     setPreview("");
     formRef.current?.resetForm();
-    getAllUsers();
-    setCurrentEditUser({});
+    getListPanigate();
+    setCurrentEditUser(null);
     setIsModalUpdate(false);
     setIsShowView(false);
   };
@@ -103,6 +103,7 @@ const AddNewModal = (props: AddNewProps) => {
   const handleBtnUpdateUser = async () => {
     const { username } = formRef.current?.values as InitialValueAdd;
     let dataEdit = await PutApiUser(currentEditUser.id, username, role, image);
+    console.log(dataEdit);
     if (dataEdit && dataEdit.EC === 0) {
       handleClose();
       toast.success("Update data successfully");

@@ -1,29 +1,47 @@
 import AddNewModal from "../../../components/blocks/managerModal/managerModal";
 import { TableUser } from "../../../components/parts/table/table";
 import { useEffect, useState } from "react";
-import { DeleteUser, GetApiUsers } from "../../../api/apiCreate/api-create";
+import {
+  DeleteUser,
+  GetApiUsers,
+  GetApiUsersWithPanigate,
+} from "../../../api/apiCreate/api-create";
 import { toast } from "react-toastify";
+
+enum LIMIT_USER {
+  limit = 3,
+}
+
 const ManagerUser = () => {
   const [show, setShow] = useState<any>(false);
   const [listUser, setListUser] = useState<any>([]);
-  const [currentEditUser, setCurrentEditUser] = useState<any>({});
+  const [currentEditUser, setCurrentEditUser] = useState<any>(null);
   const [isModalUpdate, setIsModalUpdate] = useState<any>(false);
   const [isShowView, setIsShowView] = useState<any>(false);
+  const [pageCount, setPageCount] = useState<any>();
+  const [currentPage, setCurrentPage] = useState<any>(1);
 
   const handleShow = () => setShow(true);
   useEffect(() => {
-    getAllUsers();
+    getListUserPanigate(1);
   }, []);
 
-  const getAllUsers = async () => {
-    let res = await GetApiUsers();
-    setListUser(res.DT);
+  const getListPanigate = () => {
+    getListUserPanigate(currentPage);
+  };
+
+  const getListUserPanigate = async (page: any) => {
+    let res = await GetApiUsersWithPanigate(page, LIMIT_USER.limit);
+    if (res.EC === 0) {
+      setListUser(res.DT.users);
+      setPageCount(res.DT.totalPages);
+    }
   };
 
   const handleDeleteUser = async (id: any) => {
     let dataDelete = await DeleteUser(id);
     if (dataDelete && dataDelete.EC === 0) {
-      getAllUsers();
+      getListUserPanigate(currentPage);
       toast.success(dataDelete.EM);
     } else if (dataDelete && dataDelete.EC !== 0) {
       toast.error(dataDelete.EM);
@@ -52,7 +70,7 @@ const ManagerUser = () => {
             handleShow={handleShow}
             show={show}
             setShow={setShow}
-            getAllUsers={getAllUsers}
+            getListPanigate={getListPanigate}
             currentEditUser={currentEditUser}
             isModalUpdate={isModalUpdate}
             setCurrentEditUser={setCurrentEditUser}
@@ -67,6 +85,9 @@ const ManagerUser = () => {
             handleEditUser={handleEditUser}
             handleViewUser={handleViewUser}
             handleDeleteUser={handleDeleteUser}
+            pageCount={pageCount}
+            getListUserPanigate={getListUserPanigate}
+            setCurrentPage={setCurrentPage}
           />
         </div>
       </div>
