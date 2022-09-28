@@ -55,10 +55,27 @@ const DeleteUser = (id: any): Promise<AxiosResponse<any, any>> => {
   return axios.delete("api/v1/participant", { data: { id } });
 };
 
+const PostLogin = (
+  email: string,
+  password: string
+): Promise<AxiosResponse<any, any>> => {
+  return axios.post("api/v1/login", { email, password });
+};
+
+const PostRegister = (
+  email: string,
+  password: string,
+  username: string
+): Promise<AxiosResponse<any, any>> => {
+  return axios.post("api/v1/register", { email, password, username });
+};
+
 export {
   PostApiCreate,
   GetApiUsers,
   PutApiUser,
   DeleteUser,
   GetApiUsersWithPanigate,
+  PostLogin,
+  PostRegister,
 };

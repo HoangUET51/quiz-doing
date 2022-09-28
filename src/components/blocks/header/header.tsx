@@ -1,13 +1,19 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 interface HeaderHomePageProps {
   self: any;
 }
 
 export default function HeaderHomePage() {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -28,7 +34,9 @@ export default function HeaderHomePage() {
             </NavLink>
           </Nav>
           <Nav>
-            <button className="btn-login">Log in</button>
+            <button className="btn-login" onClick={handleLogin}>
+              Log in
+            </button>
             <button className="btn-signup">Sign up</button>
           </Nav>
         </Navbar.Collapse>
