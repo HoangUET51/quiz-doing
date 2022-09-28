@@ -82,7 +82,7 @@ export default function FormLogin(props: FormLoginProps) {
               className="absolute w-[25px] h-[25px] left-6 top-3"
             />
             <GoogleLogin
-              clientId="REQUIRED"
+              clientId="301801132811-fgurgek8jtqg75fcfsg2v371g8u587vn.apps.googleusercontent.com"
               render={(renderProps) => (
                 <Button
                   type="button"
