@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import Toastify from "./components/blocks/Toastify/Toastify";
 import RoutesApp from "./routes/route";
 import "./styles/index.scss";
+import "font-awesome/css/font-awesome.min.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

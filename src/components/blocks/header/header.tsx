@@ -13,6 +13,9 @@ export default function HeaderHomePage() {
   const handleLogin = () => {
     navigate("/login");
   };
+  const handleSignUp = () => {
+    navigate("/signup");
+  };
 
   return (
     <Navbar bg="light" expand="lg">
@@ -37,7 +40,9 @@ export default function HeaderHomePage() {
             <button className="btn-login" onClick={handleLogin}>
               Log in
             </button>
-            <button className="btn-signup">Sign up</button>
+            <button className="btn-signup" onClick={handleSignUp}>
+              Sign up
+            </button>
           </Nav>
         </Navbar.Collapse>
       </Container>

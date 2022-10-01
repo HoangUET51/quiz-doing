@@ -3,8 +3,8 @@ import React from "react";
 const HomePage = () => {
   return (
     <>
-      <div className="homepage-container">
-        <video loop autoPlay muted>
+      <div className="homepage-container relative">
+        <video loop autoPlay muted className="absolute top-0">
           <source
             src="https://www.typeform.com/static/home-page/hero/video-1920.mp4"
             type="video/mp4"

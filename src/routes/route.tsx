@@ -6,6 +6,7 @@ import ManagerUser from "../pages/Admin/managerAddUser/_index";
 import Admin from "../pages/Admin/_index";
 import HomePage from "../pages/Home/_index";
 import Login from "../pages/Login/_index";
+import SignUp from "../pages/SignUp/_index";
 import User from "../pages/User/_index";
 
 export default function RoutesApp() {
@@ -20,6 +21,7 @@ export default function RoutesApp() {
         <Route path="manager-users" element={<ManagerUser />} />
       </Route>
       <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
     </Routes>
   );
 }
