@@ -24,7 +24,7 @@ export default function SignUp() {
       .email("Form email fail"),
     passwordSignUp: Yup.string()
       .required("Please enter your password")
-      .min(8, "Your password is too short."),
+      .min(6, "Your password is too short."),
   });
 
   const handleRegister = async () => {

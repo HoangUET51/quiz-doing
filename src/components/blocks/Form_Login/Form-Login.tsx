@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import { GoogleLogin } from "react-google-login";
+import { useNavigate } from "react-router-dom";
+import google from "../../../asset/img/google.png";
+import microsoft from "../../../asset/img/Microsoft_logo.svg.png";
+import spinner from "../../../asset/img/sp.png";
 import { Button } from "../../parts/button/button";
 import { FormControl } from "../../parts/form-control/form-control";
 import { Input } from "../../parts/input/input";
-import google from "../../../asset/img/google.png";
-import microsoft from "../../../asset/img/Microsoft_logo.svg.png";
-import { GoogleLogin } from "react-google-login";
-import { useNavigate } from "react-router-dom";
-import spinner from "../../../asset/img/sp.png";
 interface FormLoginProps {
   handleLogin: () => void;
   isLoading: boolean;
