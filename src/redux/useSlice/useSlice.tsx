@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const FETCH_DATA_SUCCESS = "FETCH_DATA_SUCCESS";
+const REQUEST_DATA = "REQUEST_DATA";
 interface InitalValue {
   account: {
     access_token: string;
@@ -29,6 +30,12 @@ export const fetchDataSuccess = (data: any) => {
     data: data,
   };
 };
+
+export const requestDataSuccess = () => {
+  return {
+    type: REQUEST_DATA,
+  };
+};
 export const useSlice = createSlice({
   name: "users",
   initialState,
@@ -46,6 +53,12 @@ export const useSlice = createSlice({
           username: action.data.DT.username,
         },
         isAuthentication: true,
+      };
+    },
+    [REQUEST_DATA]: (state: any, action: any) => {
+      return {
+        ...state,
+        isAuthentication: false,
       };
     },
   },

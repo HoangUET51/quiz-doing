@@ -59,7 +59,7 @@ const PostLogin = (
   email: string,
   password: string
 ): Promise<AxiosResponse<any, any>> => {
-  return axios.post("api/v1/login", { email, password, delay: 3000 });
+  return axios.post("api/v1/login", { email, password, delay: 1000 });
 };
 
 const PostRegister = (
