@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../../parts/button/button";
 import { FormControl } from "../../parts/form-control/form-control";
 import { Input } from "../../parts/input/input";
@@ -6,12 +6,14 @@ import google from "../../../asset/img/google.png";
 import microsoft from "../../../asset/img/Microsoft_logo.svg.png";
 import { GoogleLogin } from "react-google-login";
 import { useNavigate } from "react-router-dom";
+import spinner from "../../../asset/img/sp.png";
 interface FormLoginProps {
   handleLogin: () => void;
+  isLoading: boolean;
 }
 export default function FormLogin(props: FormLoginProps) {
   const navigate = useNavigate();
-  const { handleLogin } = props;
+  const { handleLogin, isLoading } = props;
   const responseGoogle = (response: any) => {
     console.log(response);
   };
@@ -75,14 +77,25 @@ export default function FormLogin(props: FormLoginProps) {
               Forgot password?
             </div>
           </div>
-          <div className="mt-[25px] w-[300px] flex flex-col gap-3">
-            <Button
-              type="button"
-              label="Log in to Typeform"
-              className="w-[300px] !bg-[#333] !text-white font-semibold"
-              size="m"
-              onClick={handleLogin}
-            />
+          <div className="mt-[25px] w-[300px] flex flex-col gap-3 relative">
+            <div>
+              <Button
+                type="button"
+                label="Log in to Typeform"
+                className="w-[300px] !bg-[#333] !text-white font-semibold"
+                size="m"
+                onClick={handleLogin}
+                disabled={isLoading}
+              />
+              {isLoading && (
+                <img
+                  src={spinner}
+                  className="w-[30px] h-[30px] absolute top-[10px] left-[40px] animate-spin"
+                  alt="spinner"
+                />
+              )}
+            </div>
+
             <div className="bg-[#BBBBBB] text-center relative h-[1px] my-[10px]">
               <span className="bg-[#fff] relative top-[-0.75rem] px-[15px]">
                 OR
