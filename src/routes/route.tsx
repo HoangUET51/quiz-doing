@@ -13,7 +13,7 @@ export default function RoutesApp() {
   return (
     <Routes>
       <Route path="/" element={<App />}>
-        <Route index element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="users" element={<User />} />
       </Route>
       <Route path="/admin" element={<Admin />}>

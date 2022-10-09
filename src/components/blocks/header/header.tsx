@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { requestDataSuccess } from "../../../redux/useSlice/useSlice";
 
 interface HeaderHomePageProps {
@@ -16,7 +16,6 @@ export default function HeaderHomePage() {
   const isAuthentication = useSelector(
     (state: any) => state.users.isAuthentication
   );
-  console.log(isAuthentication);
   const handleLogin = () => {
     navigate("/login");
   };
@@ -37,9 +36,9 @@ export default function HeaderHomePage() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <NavLink className="nav-link" to="/">
+            <Link className="nav-link" to="/">
               Home
-            </NavLink>
+            </Link>
             {isAuthentication && (
               <>
                 <NavLink className="nav-link" to="/users">

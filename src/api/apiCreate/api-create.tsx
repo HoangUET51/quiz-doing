@@ -70,6 +70,10 @@ const PostRegister = (
   return axios.post("api/v1/register", { email, password, username });
 };
 
+const getQuizByUsers = (): Promise<AxiosResponse<any, any>> => {
+  return axios.get("api/v1/quiz-by-participant");
+};
+
 export {
   PostApiCreate,
   GetApiUsers,
@@ -78,4 +82,5 @@ export {
   GetApiUsersWithPanigate,
   PostLogin,
   PostRegister,
+  getQuizByUsers,
 };
