@@ -13,9 +13,7 @@ interface FormLoginProps {
 export default function FormLogin(props: FormLoginProps) {
   const navigate = useNavigate();
   const { handleLogin, isLoading } = props;
-  const responseGoogle = (response: any) => {
-    console.log(response);
-  };
+  const responseGoogle = (response: any) => {};
   const handleSignUp = () => {
     navigate("/signup");
   };

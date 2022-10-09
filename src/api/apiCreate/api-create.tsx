@@ -74,6 +74,10 @@ const getQuizByUsers = (): Promise<AxiosResponse<any, any>> => {
   return axios.get("api/v1/quiz-by-participant");
 };
 
+const getQuestionsByQuiz = (id: any): Promise<AxiosResponse<any, any>> => {
+  return axios.get(`api/v1/questions-by-quiz?quizId=${id}`);
+};
+
 export {
   PostApiCreate,
   GetApiUsers,
@@ -83,4 +87,5 @@ export {
   PostLogin,
   PostRegister,
   getQuizByUsers,
+  getQuestionsByQuiz,
 };

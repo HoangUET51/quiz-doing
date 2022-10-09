@@ -1,0 +1,10 @@
+
+[{
+    questionId:string,
+    answers: [{
+        id: string,
+        decription: string
+    }],
+    questionDecription: string,
+    image: string
+}]

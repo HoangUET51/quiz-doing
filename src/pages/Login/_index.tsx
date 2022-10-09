@@ -30,9 +30,9 @@ export default function Login() {
   });
 
   const handleLogin = async () => {
+    setIsLoading(true);
     const { emaiLogin, passwordLogin } = formRef.current?.values as InitalValue;
     let data = await PostLogin(emaiLogin, passwordLogin);
-    setIsLoading(true);
     if (data && data.EC === 0) {
       dispatch(fetchDataSuccess(data));
       toast.success(data.EM);

@@ -7,15 +7,17 @@ import Admin from "../pages/Admin/_index";
 import HomePage from "../pages/Home/_index";
 import Login from "../pages/Login/_index";
 import SignUp from "../pages/SignUp/_index";
+import QuestionQuiz from "../pages/User/Detail/_index";
 import User from "../pages/User/_index";
 
 export default function RoutesApp() {
   return (
     <Routes>
       <Route path="/" element={<App />}>
-        <Route path="/" element={<HomePage />} />
+        <Route index element={<HomePage />} />
         <Route path="users" element={<User />} />
       </Route>
+      <Route path="/quiz/:id" element={<QuestionQuiz />} />
       <Route path="/admin" element={<Admin />}>
         <Route index element={<DashBoard />} />
         <Route path="manager-users" element={<ManagerUser />} />
