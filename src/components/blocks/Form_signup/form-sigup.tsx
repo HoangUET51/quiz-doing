@@ -12,9 +12,7 @@ import eyefIcon from "../../../asset/img/eyef.png";
 import clsx from "clsx";
 interface FormSignUpProps {}
 export default function FormSignUp(props: FormSignUpProps) {
-  const responseGoogle = (response: any) => {
-    console.log(response);
-  };
+  const responseGoogle = (response: any) => {};
   const navigate = useNavigate();
   const handleLogin = () => {
     navigate("/login");
@@ -22,7 +20,6 @@ export default function FormSignUp(props: FormSignUpProps) {
   const [showPass, setShowPass] = useState<boolean>(false);
   const handleShowPass = () => {
     setShowPass(!showPass);
-    console.log(showPass);
   };
   return (
     <div className="flex flex-row overflow-y-hidden">

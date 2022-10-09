@@ -1,6 +1,19 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
+  const isAuthentication = useSelector(
+    (state: any) => state.users.isAuthentication
+  );
+  const navigate = useNavigate();
+  const handleStart = () => {
+    if (isAuthentication) {
+      navigate("/users");
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <>
       <div className="homepage-container relative">
@@ -18,7 +31,9 @@ const HomePage = () => {
           one. Create a typeform instead-and make everyone happy.
         </div>
         <div className="title-3">
-          <button className="btn-started">Get started-it's free</button>
+          <button className="btn-started" onClick={handleStart}>
+            {!isAuthentication ? "Get started-it's free" : "Start doing quiz"}
+          </button>
         </div>
       </div>
     </>
