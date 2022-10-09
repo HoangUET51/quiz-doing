@@ -1,6 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 
 interface HeaderHomePageProps {
@@ -9,12 +10,18 @@ interface HeaderHomePageProps {
 
 export default function HeaderHomePage() {
   const navigate = useNavigate();
-
+  // const account = useSelector((state: any) => state.users.account);
+  const isAuthentication = useSelector(
+    (state: any) => state.users.isAuthentication
+  );
   const handleLogin = () => {
     navigate("/login");
   };
   const handleSignUp = () => {
     navigate("/signup");
+  };
+  const handleLogout = () => {
+    navigate("/login");
   };
 
   return (
@@ -36,14 +43,23 @@ export default function HeaderHomePage() {
               Admin
             </NavLink>
           </Nav>
-          <Nav>
-            <button className="btn-login" onClick={handleLogin}>
-              Log in
-            </button>
-            <button className="btn-signup" onClick={handleSignUp}>
-              Sign up
-            </button>
-          </Nav>
+          {!isAuthentication ? (
+            <Nav>
+              <button className="btn-login" onClick={handleLogin}>
+                Log in
+              </button>
+              <button className="btn-signup" onClick={handleSignUp}>
+                Sign up
+              </button>
+            </Nav>
+          ) : (
+            <Nav>
+              <button className="btn-login">Setting</button>
+              <button className="btn-signup" onClick={handleLogout}>
+                Log out
+              </button>
+            </Nav>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
