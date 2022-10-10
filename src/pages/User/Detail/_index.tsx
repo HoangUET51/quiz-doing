@@ -1,10 +1,14 @@
-import _, { values } from "lodash";
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import _ from "lodash";
+import React, { useEffect, useState } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { getQuestionsByQuiz } from "../../../api/apiCreate/api-create";
+import QuestionsQuiz from "../../../components/blocks/questionQuiz/questionQuiz";
 
 const QuestionQuiz = () => {
   const quizId = useParams().id;
+  const location = useLocation();
+  const { quizTitle } = location.state;
+  const [listData, setListData] = useState<any>([]);
   useEffect(() => {
     fetchQuestionQuiz();
   }, [quizId]);
@@ -12,7 +16,7 @@ const QuestionQuiz = () => {
   const fetchQuestionQuiz = async () => {
     let res = await getQuestionsByQuiz(quizId);
     if (res && res.EC === 0) {
-      let data = _.chain(res.DT)
+      let data: any = _.chain(res.DT)
         .groupBy("id")
         .map((value, key) => {
           return {
@@ -23,13 +27,21 @@ const QuestionQuiz = () => {
             })),
             questionDecription: value[0].description,
             image: value[0].image,
+            isSelected: false,
           };
         })
         .value();
-      console.log(data);
+      setListData(data);
     }
   };
-  return <div>hello detail</div>;
+  return (
+    <div>
+      <QuestionsQuiz
+        quizTitle={quizTitle}
+        listData={listData.length > 0 ? listData : []}
+      />
+    </div>
+  );
 };
 
 export default QuestionQuiz;
