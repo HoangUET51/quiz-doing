@@ -15,8 +15,8 @@ const CartQuiz = () => {
       setListQuiz(res.DT);
     }
   };
-  const handleStartNow = (id: any) => {
-    navigate(`/quiz/${id}`);
+  const handleStartNow = (id: any, title: any) => {
+    navigate(`/quiz/${id}`, { state: { quizTitle: title } });
   };
   return (
     <Container>
@@ -34,7 +34,7 @@ const CartQuiz = () => {
                 <p className="card-text py-3 text-[1rem]">{item.description}</p>
                 <Button
                   label="Start Now"
-                  onClick={() => handleStartNow(item.id)}
+                  onClick={() => handleStartNow(item.id, item.description)}
                 />
               </div>
             </div>
