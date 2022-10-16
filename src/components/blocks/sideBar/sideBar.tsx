@@ -58,7 +58,11 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }: any) => {
                 Quản lý Users
                 <Link to="/admin/manager-users" />
               </MenuItem>
-              <MenuItem>Quản lý Bài Quiz</MenuItem>
+              <MenuItem>
+                Quản lý Bài Quiz
+                <Link to="/admin/manager-questions" />
+              </MenuItem>
+
               <MenuItem>Quản lý Câu Hỏi</MenuItem>
             </SubMenu>
           </Menu>
