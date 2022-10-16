@@ -1,10 +1,8 @@
 
-[{
-    questionId:string,
+{
+    quizId:1
     answers: [{
-        id: string,
-        decription: string
-    }],
-    questionDecription: string,
-    image: string
-}]
+        questionId:1
+        useAnswerId:[3,2,1,]
+    }]
+}
