@@ -81,6 +81,21 @@ const getQuestionsByQuiz = (id: any): Promise<AxiosResponse<any, any>> => {
 const postSubmit = (data: any): Promise<AxiosResponse<any, any>> => {
   return axios.post("api/v1/quiz-submit", { ...data });
 };
+
+const postCreateQuiz = (
+  description: any,
+  name: any,
+  difficulty: any,
+  image: any
+): Promise<AxiosResponse<any, any>> => {
+  const data = new FormData();
+  data.append("description", description);
+  data.append("name", name);
+  data.append("difficulty", difficulty);
+  data.append("quizImage", image);
+
+  return axios.post("api/v1/quiz", data);
+};
 export {
   PostApiCreate,
   GetApiUsers,
@@ -92,4 +107,5 @@ export {
   getQuizByUsers,
   getQuestionsByQuiz,
   postSubmit,
+  postCreateQuiz,
 };
