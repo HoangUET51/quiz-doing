@@ -4,36 +4,59 @@ import { FormControl } from "../../parts/form-control/form-control";
 import { Input } from "../../parts/input/input";
 import * as Yup from "yup";
 import Select from "react-select";
+import { Button } from "../../parts/button/button";
+import { postCreateQuiz } from "../../../api/apiCreate/api-create";
+import clsx from "clsx";
+import { toast } from "react-toastify";
 interface InitialValueAdd {
   name: string;
-  decription: string;
+  description: string;
 }
 export default function AddQuiz() {
   const formRef = React.createRef<FormikContextType<InitialValueAdd>>();
-  const [image, setImage] = useState<string>("");
-  const [preview, setPreview] = useState<string>("");
+  const [image, setImage] = useState("");
   const [selectedOption, setSelectedOption] = useState<any>({
-    value: "chocolate",
-    label: "Chocolate",
+    value: "EASY",
+    label: "EASY",
   });
   const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
+    { value: "EASY", label: "EASY" },
+    { value: "MEDIUM", label: "MEDIUM" },
+    { value: "HARD", label: "HARD" },
   ];
   const initialValues: InitialValueAdd = {
     name: "",
-    decription: "",
+    description: "",
   };
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Required field"),
-    decription: Yup.string().required("Required field"),
+    description: Yup.string().required("Required field"),
   });
   const handleImage = (e: any) => {
     if (e.target.files && e.target.files[0]) {
-      setPreview(URL.createObjectURL(e.target.files[0]));
-      setImage(URL.createObjectURL(e.target.files[0]));
+      setImage(e.target.files[0]);
     }
+  };
+
+  const handleCreateQuiz = async () => {
+    const { name, description } = formRef.current?.values as InitialValueAdd;
+    let res = await postCreateQuiz(
+      description,
+      name,
+      selectedOption.value,
+      image
+    );
+    if (res && res.EC === 0) {
+      console.log(res);
+    } else {
+      toast.error(res.DT.EM);
+    }
+    setImage("");
+    setSelectedOption({
+      value: "EASY",
+      label: "EASY",
+    });
+    formRef.current?.resetForm();
   };
   return (
     <Formik
@@ -62,15 +85,15 @@ export default function AddQuiz() {
             </FormControl>
           </div>
           <div className="col-md-12">
-            <FormControl name="decription">
-              <label className="form-label">Decription</label>
+            <FormControl name="description">
+              <label className="form-label">Description</label>
               <Input
                 hasShadow={false}
                 width="w-full mt-0"
                 className="!max-w-full"
                 inputClassName="font-[Arial] outline-none"
                 errorClassName="!text-[#e54e87] !font-normal"
-                placeholder="Decription"
+                placeholder="description"
               />
             </FormControl>
           </div>
@@ -84,7 +107,10 @@ export default function AddQuiz() {
           </div>
           <div className="col-md-12">
             <label
-              className="form-label bg-[#e2e1e1] p-2 rounded cursor-pointer"
+              className={clsx(
+                "form-label bg-[#e2e1e1] p-2 rounded cursor-pointer",
+                { "bg-[#1e7fda]": image }
+              )}
               htmlFor="labelInput"
             >
               Upload File Image
@@ -96,15 +122,7 @@ export default function AddQuiz() {
               onChange={(e) => handleImage(e)}
             />
           </div>
-          <div className="col-md-12 border border-info rounded-4 text-center h-[200px] d-flex justify-center">
-            {preview.length > 0 ? (
-              <img src={preview} style={{ height: "100%", width: "50%" }} />
-            ) : (
-              <div className="d-flex justify-center items-center self-center">
-                Preview Image
-              </div>
-            )}
-          </div>
+          <Button label="Save" onClick={handleCreateQuiz} />
         </form>
       </Form>
     </Formik>
