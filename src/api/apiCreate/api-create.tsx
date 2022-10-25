@@ -96,6 +96,14 @@ const postCreateQuiz = (
 
   return axios.post("api/v1/quiz", data);
 };
+
+const getAllQuiz = () :Promise<AxiosResponse<any, any>>=>{
+  return axios.get("api/v1/quiz/all")
+}
+
+const deleteQuiz = (id: any):Promise<AxiosResponse<any, any>>=>{
+  return axios.delete(`api/v1/quiz/${id}`)
+}
 export {
   PostApiCreate,
   GetApiUsers,
@@ -108,4 +116,6 @@ export {
   getQuestionsByQuiz,
   postSubmit,
   postCreateQuiz,
+  getAllQuiz,
+  deleteQuiz
 };

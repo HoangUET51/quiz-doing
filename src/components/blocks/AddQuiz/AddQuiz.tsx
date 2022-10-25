@@ -1,19 +1,21 @@
 import { Form, Formik, FormikContextType } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormControl } from "../../parts/form-control/form-control";
 import { Input } from "../../parts/input/input";
 import * as Yup from "yup";
 import Select from "react-select";
 import { Button } from "../../parts/button/button";
-import { postCreateQuiz } from "../../../api/apiCreate/api-create";
+import { deleteQuiz, getAllQuiz, postCreateQuiz } from "../../../api/apiCreate/api-create";
 import clsx from "clsx";
 import { toast } from "react-toastify";
+import { TableQuiz } from "../../parts/table_quiz/table_quiz";
 interface InitialValueAdd {
   name: string;
   description: string;
 }
 export default function AddQuiz() {
   const formRef = React.createRef<FormikContextType<InitialValueAdd>>();
+  const [listQuiz, setListQuiz] = useState<any>([]);
   const [image, setImage] = useState("");
   const [selectedOption, setSelectedOption] = useState<any>({
     value: "EASY",
@@ -38,6 +40,19 @@ export default function AddQuiz() {
     }
   };
 
+  useEffect(() => {
+    handleGetAllQuiz();
+  }, []);
+
+  const handleGetAllQuiz = async () => {
+    let res = await getAllQuiz();
+    if (res && res.EC === 0) {
+      setListQuiz(res.DT);
+    } else {
+      toast.error(res.EM)
+    }
+  };
+
   const handleCreateQuiz = async () => {
     const { name, description } = formRef.current?.values as InitialValueAdd;
     let res = await postCreateQuiz(
@@ -47,7 +62,7 @@ export default function AddQuiz() {
       image
     );
     if (res && res.EC === 0) {
-      console.log(res);
+      handleGetAllQuiz()
     } else {
       toast.error(res.DT.EM);
     }
@@ -58,6 +73,16 @@ export default function AddQuiz() {
     });
     formRef.current?.resetForm();
   };
+
+  const handleDeleteQuiz = async (id:any)=> {
+    let res = await deleteQuiz(id);
+    if(res && res.EC === 0) {
+      handleGetAllQuiz()
+      toast.success(res.EM);
+    } else {
+      toast.error(res.EM)
+    }
+  }
   return (
     <Formik
       enableReinitialize
@@ -124,6 +149,7 @@ export default function AddQuiz() {
           </div>
           <Button label="Save" onClick={handleCreateQuiz} />
         </form>
+        <TableQuiz listQuiz = {listQuiz} handleDeleteQuiz={handleDeleteQuiz}/>
       </Form>
     </Formik>
   );
