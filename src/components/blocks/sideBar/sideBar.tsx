@@ -60,10 +60,12 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }: any) => {
               </MenuItem>
               <MenuItem>
                 Quản lý Bài Quiz
-                <Link to="/admin/manager-questions" />
+                <Link to="/admin/manager-quiz" />
               </MenuItem>
 
-              <MenuItem>Quản lý Câu Hỏi</MenuItem>
+              <MenuItem>Quản lý Câu Hỏi
+                <Link to="/admin/manager-questions" />
+              </MenuItem>
             </SubMenu>
           </Menu>
         </SidebarContent>
