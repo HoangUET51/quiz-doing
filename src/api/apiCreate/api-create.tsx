@@ -138,6 +138,36 @@ const createAnswer = (
   });
 };
 
+const updateQuiz = (
+  id: any,
+  description: any,
+  name: any,
+  difficulty: any,
+  quizImage: any
+): Promise<AxiosResponse<any, any>> => {
+  const data = new FormData();
+  data.append("id", id);
+  data.append("description", description);
+  data.append("name", name);
+  data.append("difficulty", difficulty);
+  data.append("quizImage", quizImage);
+  return axios.put("api/v1/quiz", data);
+};
+
+const updateQuestion = (
+  id: any,
+  quiz_id: any,
+  description: any,
+  questionImage: any
+): Promise<AxiosResponse<any, any>> => {
+  const data = new FormData();
+  data.append("id", id);
+  data.append("quiz_id", quiz_id);
+  data.append("description", description);
+  data.append("questionImage", questionImage);
+  return axios.put("api/v1/question", data);
+};
+
 export {
   PostApiCreate,
   GetApiUsers,
@@ -156,4 +186,6 @@ export {
   deleteQuestion,
   createQuestion,
   createAnswer,
+  updateQuiz,
+  updateQuestion,
 };

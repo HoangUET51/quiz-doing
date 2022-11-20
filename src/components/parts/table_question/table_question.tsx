@@ -7,10 +7,11 @@ import { Button } from "../button/button";
 interface QuestionProps {
   listQuestion: any[];
   handleGetAllQuestion: () => void;
+  handleBtnEdit: (question: any) => void;
 }
 
 export default function TableQuestion(props: QuestionProps) {
-  const { listQuestion, handleGetAllQuestion } = props;
+  const { listQuestion, handleGetAllQuestion, handleBtnEdit } = props;
   const handleDeleteQuestion = async (id: any, quizId: any) => {
     let res = await deleteQuestion(id, quizId);
     if (res && res.EC === 0) {
@@ -39,7 +40,11 @@ export default function TableQuestion(props: QuestionProps) {
                 <td>{question.quiz_id}</td>
                 <td>{question.description}</td>
                 <td className="flex flex-row justify-center gap-3">
-                  <Button label="Edit" theme="secondary" />
+                  <Button
+                    label="Edit"
+                    theme="secondary"
+                    onClick={() => handleBtnEdit(question)}
+                  />
                   <Button
                     label="Delete"
                     theme="danger"

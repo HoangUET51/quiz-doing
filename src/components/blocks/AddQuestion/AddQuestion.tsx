@@ -6,6 +6,7 @@ import {
   createQuestion,
   createAnswer,
   getAllQuestions,
+  updateQuestion,
 } from "../../../api/apiCreate/api-create";
 import TableQuestion from "../../parts/table_question/table_question";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
@@ -16,9 +17,14 @@ import iconSub from "../../../asset/img/subtract.png";
 import _ from "lodash";
 import Select from "react-select";
 import { toast } from "react-toastify";
+import Modal from "react-bootstrap/Modal";
 const { v4: uuidv4 } = require("uuid");
 
 export default function AddQuestion() {
+  const [show, setShow] = useState<any>(false);
+  const [description, setDescription] = useState<any>("");
+  const [image, setImage] = useState<any>("");
+  const [currentQuestion, setCurrentQuestion] = useState<any>({});
   const [selectedOption, setSelectedOption] = useState<any>({
     value: "Please choose quiz",
     label: "Please choose quiz",
@@ -131,7 +137,6 @@ export default function AddQuestion() {
         );
         setListQuestionA(listQuestionAClone);
       }
-      console.log(listQuestionAClone);
     }
 
     if (type === "CHECKED") {
@@ -176,7 +181,6 @@ export default function AddQuestion() {
     let res = await getAllQuestions();
     if (res && res.EC === 0) {
       setListQuestion(res.DT);
-      console.log(listQuestion);
     } else {
       toast.error(res.EM);
     }
@@ -216,6 +220,42 @@ export default function AddQuestion() {
         );
       })
     );
+  };
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const handleImage = (e: any) => {
+    if (e.target.files && e.target.files[0]) {
+      setImage(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
+  const handleBtnEdit = (question: any) => {
+    setShow(true);
+    setCurrentQuestion(question);
+  };
+  useEffect(() => {
+    setDescription(currentQuestion.description);
+    setImage(currentQuestion.image);
+  }, [currentQuestion]);
+
+  const handleUpdateQuestion = async () => {
+    let res = await updateQuestion(
+      currentQuestion.id,
+      currentQuestion.quiz_id,
+      description,
+      image
+    );
+
+    if (res.EC === 0) {
+      handleClose();
+      handleGetAllQuestion();
+      toast.success(res.EM);
+    } else {
+      toast.error(res.EM);
+    }
   };
 
   return (
@@ -358,7 +398,63 @@ export default function AddQuestion() {
       <TableQuestion
         listQuestion={listQuestion}
         handleGetAllQuestion={handleGetAllQuestion}
+        handleBtnEdit={handleBtnEdit}
       />
+
+      <Modal
+        show={show}
+        onHide={handleClose}
+        size="xl"
+        backdrop="static"
+        dialogClassName="rounded-[10px]"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Update Quiz</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form className="row g-3">
+            <div className="col-md-6">
+              <FloatingLabel
+                controlId="updateDesQuiz"
+                label="Description"
+                className="mb-3 w-full"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </FloatingLabel>
+              <div className="ml-3">
+                <label
+                  className="form-label rounded cursor-pointer"
+                  htmlFor={`img`}
+                >
+                  <img
+                    src={iconImg}
+                    alt="add-img"
+                    className={clsx("w-[40px] h-[40px]", {
+                      "bg-[#16e7dd]": image,
+                    })}
+                    onChange={(e) => handleImage(e)}
+                  />
+                </label>
+                <input type="file" hidden id={`img`} />
+              </div>
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            label="Close"
+            theme="secondary"
+            onClick={handleClose}
+            className="text-black"
+          />
+          <Button label="Update" onClick={handleUpdateQuestion} />
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

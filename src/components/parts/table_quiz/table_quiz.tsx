@@ -3,9 +3,10 @@ import { Button } from "../button/button";
 interface TableQuizProps {
   listQuiz: any[];
   handleDeleteQuiz: (id: any) => void;
+  handleBtnEdit: (quiz: any) => void;
 }
 export function TableQuiz(props: TableQuizProps) {
-  const { listQuiz, handleDeleteQuiz } = props;
+  const { listQuiz, handleDeleteQuiz, handleBtnEdit } = props;
   return (
     <>
       <Table striped bordered hover>
@@ -25,7 +26,11 @@ export function TableQuiz(props: TableQuizProps) {
                 <td>{quiz.name}</td>
                 <td>{`${quiz.description} (${quiz.difficulty})`}</td>
                 <td className="flex flex-row justify-center gap-3">
-                  <Button label="Edit" theme="secondary" />
+                  <Button
+                    label="Edit"
+                    theme="secondary"
+                    onClick={() => handleBtnEdit(quiz)}
+                  />
                   <Button
                     label="Delete"
                     theme="danger"
