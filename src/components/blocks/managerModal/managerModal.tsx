@@ -103,7 +103,6 @@ const AddNewModal = (props: AddNewProps) => {
   const handleBtnUpdateUser = async () => {
     const { username } = formRef.current?.values as InitialValueAdd;
     let dataEdit = await PutApiUser(currentEditUser.id, username, role, image);
-    console.log(dataEdit);
     if (dataEdit && dataEdit.EC === 0) {
       handleClose();
       toast.success("Update data successfully");

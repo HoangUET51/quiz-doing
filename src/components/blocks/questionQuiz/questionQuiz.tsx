@@ -51,7 +51,6 @@ export default function QuestionsQuiz(props: QuizProps) {
         countCorrect: res.DT.countCorrect,
         countTotal: res.DT.countTotal,
       });
-      console.log(res);
     } else {
       toast.error(res.EM);
     }
