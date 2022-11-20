@@ -209,15 +209,21 @@ export default function AddQuestion() {
           item.description,
           item.imgFile
         );
-        await Promise.all(
-          item.answers.map(async (answer) => {
-            await createAnswer(
-              question.DT.id,
-              answer.description,
-              answer.isCheckAnswer
-            );
-          })
-        );
+        if (question.EC === 0) {
+          await Promise.all(
+            item.answers.map(async (answer) => {
+              await createAnswer(
+                question.DT.id,
+                answer.description,
+                answer.isCheckAnswer
+              );
+            })
+          );
+          toast.success(question.EM);
+          handleGetAllQuestion();
+        } else {
+          toast.error(question.EM);
+        }
       })
     );
   };
