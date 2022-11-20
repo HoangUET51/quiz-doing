@@ -1,7 +1,12 @@
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import { Button } from "../../../components/parts/button/button";
-import { getAllQuestions } from "../../../api/apiCreate/api-create";
+import {
+  getAllQuiz,
+  createQuestion,
+  createAnswer,
+  getAllQuestions,
+} from "../../../api/apiCreate/api-create";
 import TableQuestion from "../../parts/table_question/table_question";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
@@ -9,14 +14,15 @@ import iconImg from "../../../asset/img/add-img.png";
 import iconPlus from "../../../asset/img/plus.png";
 import iconSub from "../../../asset/img/subtract.png";
 import _ from "lodash";
+import Select from "react-select";
+import { toast } from "react-toastify";
 const { v4: uuidv4 } = require("uuid");
 
 export default function AddQuestion() {
-  const options = [
-    { value: "EASY", label: "EASY" },
-    { value: "MEDIUM", label: "MEDIUM" },
-    { value: "HARD", label: "HARD" },
-  ];
+  const [selectedOption, setSelectedOption] = useState<any>({
+    value: "Please choose quiz",
+    label: "Please choose quiz",
+  });
 
   const [listQuestionA, setListQuestionA] = useState([
     {
@@ -32,6 +38,15 @@ export default function AddQuestion() {
       ],
     },
   ]);
+
+  const [listQuiz, setListQuiz] = useState<any>([
+    {
+      value: "",
+      label: "",
+    },
+  ]);
+
+  const [listQuestion, setListQuestion] = useState<any>([]);
 
   const handleAddRemove = (type: string, id?: any) => {
     if (type === "ADD") {
@@ -152,10 +167,69 @@ export default function AddQuestion() {
     }
   };
 
+  useEffect(() => {
+    handleGetAllQuiz();
+    handleGetAllQuestion();
+  }, []);
+
+  const handleGetAllQuestion = async () => {
+    let res = await getAllQuestions();
+    if (res && res.EC === 0) {
+      setListQuestion(res.DT);
+      console.log(listQuestion);
+    } else {
+      toast.error(res.EM);
+    }
+  };
+
+  const handleGetAllQuiz = async () => {
+    let res = await getAllQuiz();
+    if (res && res.EC === 0) {
+      let newQuizs = res.DT.map((item: any, index: any) => {
+        return {
+          value: item.id,
+          label: `${item.id}-${item.description} `,
+        };
+      });
+      setListQuiz(newQuizs);
+    } else {
+      toast.error(res.EM);
+    }
+  };
+
+  const handleSave = async () => {
+    await Promise.all(
+      listQuestionA.map(async (item) => {
+        let question = await createQuestion(
+          selectedOption.value,
+          item.description,
+          item.imgFile
+        );
+        await Promise.all(
+          item.answers.map(async (answer) => {
+            await createAnswer(
+              question.DT.id,
+              answer.description,
+              answer.isCheckAnswer
+            );
+          })
+        );
+      })
+    );
+  };
+
   return (
     <div>
-      <div className="text-[30px] text-[#0eafe0]">Add New Questions</div>
       <div className="Footer-container">
+        <div className="col-md-4 mb-[1rem] mt-2">
+          <label className="form-label text-[1.2rem]">Select Quiz</label>
+          <Select
+            defaultValue={selectedOption}
+            onChange={setSelectedOption}
+            options={listQuiz}
+          />
+        </div>
+
         {listQuestionA &&
           listQuestionA.length &&
           listQuestionA.map((item, index) => (
@@ -278,13 +352,13 @@ export default function AddQuestion() {
           ))}
       </div>
       <div className="col-md-6">
-        <Button label="Save" />
+        <Button label="Save" onClick={handleSave} />
         <div className="my-3">Tabel Question</div>
-        {/* <TableQuestion
-          listQuestion={[]}
-          handleGetAllQuestion={handleGetAllQuestion}
-        /> */}
       </div>
+      <TableQuestion
+        listQuestion={listQuestion}
+        handleGetAllQuestion={handleGetAllQuestion}
+      />
     </div>
   );
 }

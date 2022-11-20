@@ -107,8 +107,35 @@ const deleteQuiz = (id: any): Promise<AxiosResponse<any, any>> => {
 const getAllQuestions = (): Promise<AxiosResponse<any, any>> => {
   return axios.get("api/v1/question/all");
 };
-const deleteQuestion = (id: any,quizId:any): Promise<AxiosResponse<any, any>> => {
-  return axios.delete('api/v1/question',{data:{id,quizId}});
+const deleteQuestion = (
+  id: any,
+  quizId: any
+): Promise<AxiosResponse<any, any>> => {
+  return axios.delete("api/v1/question", { data: { id, quizId } });
+};
+
+const createQuestion = (
+  quiz_id: any,
+  description: any,
+  questionImage: any
+): Promise<AxiosResponse<any, any>> => {
+  const data = new FormData();
+  data.append("quiz_id", quiz_id);
+  data.append("description", description);
+  data.append("questionImage", questionImage);
+  return axios.post("api/v1/question", data);
+};
+
+const createAnswer = (
+  question_id: any,
+  description: any,
+  correct_answer: any
+): Promise<AxiosResponse<any, any>> => {
+  return axios.post("api/v1/answer", {
+    description,
+    correct_answer,
+    question_id,
+  });
 };
 
 export {
@@ -126,5 +153,7 @@ export {
   getAllQuiz,
   deleteQuiz,
   getAllQuestions,
-  deleteQuestion
+  deleteQuestion,
+  createQuestion,
+  createAnswer,
 };

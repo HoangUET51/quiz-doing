@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { Outlet } from "react-router-dom";
 import SideBar from "../../components/blocks/sideBar/sideBar";
+import Form from "react-bootstrap/Form";
 
 const Admin = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -12,7 +13,14 @@ const Admin = () => {
       </div>
       <div className="admin-content w-full">
         <div className="admin-header">
-          <FaBars onClick={() => setCollapsed(!collapsed)} />
+          <Form>
+            <Form.Check
+              type="switch"
+              id="custom-switch"
+              onClick={() => setCollapsed(!collapsed)}
+              className="cursor-pointer"
+            />
+          </Form>
         </div>
         <div className="admin-main">
           <Outlet />
