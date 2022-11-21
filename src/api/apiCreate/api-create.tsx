@@ -168,6 +168,13 @@ const updateQuestion = (
   return axios.put("api/v1/question", data);
 };
 
+const assignQuizForUser = (
+  quizId: any,
+  userId: any
+): Promise<AxiosResponse<any, any>> => {
+  return axios.post("api/v1/quiz-assign-to-user", { quizId, userId });
+};
+
 export {
   PostApiCreate,
   GetApiUsers,
@@ -188,4 +195,5 @@ export {
   createAnswer,
   updateQuiz,
   updateQuestion,
+  assignQuizForUser,
 };
