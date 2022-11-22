@@ -51,7 +51,7 @@ const QuestionQuiz = () => {
     }
   };
   return (
-    <div>
+    <div className="mt-10">
       <QuestionsQuiz
         quizTitle={quizTitle}
         listData={listData.length > 0 ? listData : []}
