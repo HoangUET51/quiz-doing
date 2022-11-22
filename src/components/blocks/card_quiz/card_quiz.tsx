@@ -20,13 +20,13 @@ const CartQuiz = () => {
   };
   return (
     <Container>
-      <div className="flex flex-row gap-5 mt-5">
+      <div className="flex flex-row gap-5 mt-5 flex-wrap">
         {listQuiz && listQuiz.length ? (
           listQuiz.map((item, index) => (
-            <div className="card w-1/3" key={index}>
+            <div className="card w-[25rem] h-[30rem]" key={index}>
               <img
                 src={`data:image/jpeg;base64,${item.image}`}
-                className="card-img-top"
+                className="card-img-top w-full h-2/3"
                 alt="abc"
               />
               <div className="card-body">

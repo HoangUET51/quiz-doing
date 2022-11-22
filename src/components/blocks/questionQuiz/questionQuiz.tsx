@@ -3,8 +3,10 @@ import { Button } from "../../parts/button/button";
 import { useParams } from "react-router-dom";
 import { postSubmit } from "../../../api/apiCreate/api-create";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ResultModal from "../result_modal/resultModal";
+import moment from "moment";
+import clsx from "clsx";
 
 interface QuizProps {
   quizTitle: string;
@@ -18,6 +20,7 @@ interface PayLoad {
 
 export default function QuestionsQuiz(props: QuizProps) {
   const [show, setShow] = useState<boolean>(false);
+  const [count, setCount] = useState<any>(900);
   const [result, setResult] = useState<any>({});
   const { quizTitle, listData, handleCheckBox } = props;
   const quizId: any = useParams().id;
@@ -55,12 +58,24 @@ export default function QuestionsQuiz(props: QuizProps) {
       toast.error(res.EM);
     }
   };
+
+  useEffect(() => {
+    let timer = setInterval(() => {
+      if (count === 0) return;
+      setCount((count: any) => count - 1);
+    }, 1000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [count]);
   return (
     <>
       <Container>
-        <div className="flex flex-row">
-          <div className="w-2/3">
-            <div className="text-[2rem] font-semibold my-3">{quizTitle}</div>
+        <div className="flex flex-row gap-2">
+          <div className="w-2/3 border-4 border-[#605f5f] h-[80vh] p-4">
+            <div className="text-[2rem] font-semibold my-3 text-[#29c0db]">
+              {quizTitle}
+            </div>
             {listData && listData.length ? (
               listData.map((it: any, idx: any) => (
                 <div key={idx}>
@@ -91,14 +106,42 @@ export default function QuestionsQuiz(props: QuizProps) {
               <></>
             )}
 
-            <div className="flex flex-row content-center">
+            <div className="flex flex-row content-center mt-3">
               <Button label="Finish" onClick={handleFinish} />
             </div>
           </div>
-          <div className="w-1/3 text-[1.5rem] font-semibold">CountDown</div>
+          <div className="w-1/3 text-[1.5rem] font-semibold border-4 border-[#605f5f] p-4">
+            <div className="text-center border-b-4 pb-3">
+              {moment.utc(count * 1000).format("mm:ss")}
+            </div>
+            <div className="flex flex-row gap-2 mt-5 flex-wrap">
+              {listData.length > 0 &&
+                listData.map((item: any, index: any) => {
+                  let check = item.answers.some(
+                    (it: any) => it.isSelected === true
+                  );
+                  return (
+                    <p
+                      className={clsx(
+                        "flex border-2 rounded-full w-[50px] h-[50px] justify-center items-center hover:text-[red] cursor-pointer",
+                        { "bg-[#dfea09]": check }
+                      )}
+                    >
+                      {index + 1}
+                    </p>
+                  );
+                })}
+            </div>
+          </div>
         </div>
       </Container>
-      <ResultModal show={show} setShow={setShow} result={result} />
+      <ResultModal
+        show={show}
+        setShow={setShow}
+        result={result}
+        count={count}
+        handleFinish={handleFinish}
+      />
     </>
   );
 }

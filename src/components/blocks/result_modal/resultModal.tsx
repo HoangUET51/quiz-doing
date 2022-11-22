@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
 interface QuestionProps {
   show: boolean;
@@ -7,9 +7,17 @@ interface QuestionProps {
     countCorrect: any;
     countTotal: any;
   };
+  count: any;
+  handleFinish: () => void;
 }
 export default function ResultModal(props: QuestionProps) {
-  const { show, setShow, result } = props;
+  const { show, setShow, result, count, handleFinish } = props;
+  useEffect(() => {
+    if (count === 0) {
+      setShow(true);
+      handleFinish();
+    }
+  }, [count]);
   const handleClose = () => {
     setShow(false);
   };
@@ -19,7 +27,6 @@ export default function ResultModal(props: QuestionProps) {
         show={show}
         onHide={handleClose}
         size="sm"
-        backdrop="static"
         dialogClassName="rounded-[10px]"
       >
         <Modal.Header closeButton>
