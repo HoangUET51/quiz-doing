@@ -10,10 +10,11 @@ import {
   SubMenu,
 } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import sidebarBg from "../../../asset/img/bg2.jpg";
 // import "./SideBar.scss";
 const SideBar = ({ collapsed, toggled, handleToggleSidebar }: any) => {
+  const navigate = useNavigate();
   return (
     <>
       <ProSidebar
@@ -36,6 +37,10 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }: any) => {
               textOverflow: "ellipsis",
               whiteSpace: "nowrap",
             }}
+            onClick={() => {
+              navigate("/");
+            }}
+            className="cursor-pointer"
           >
             <DiReact size={"3em"} color={"00bfff"} className="inline-block" />
             Doing Quiz
@@ -63,7 +68,8 @@ const SideBar = ({ collapsed, toggled, handleToggleSidebar }: any) => {
                 <Link to="/admin/manager-quiz" />
               </MenuItem>
 
-              <MenuItem>Quản lý Câu Hỏi
+              <MenuItem>
+                Quản lý Câu Hỏi
                 <Link to="/admin/manager-questions" />
               </MenuItem>
             </SubMenu>

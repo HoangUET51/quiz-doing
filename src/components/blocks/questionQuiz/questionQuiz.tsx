@@ -1,13 +1,13 @@
 import { Container } from "react-bootstrap";
 import { Button } from "../../parts/button/button";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { postSubmit } from "../../../api/apiCreate/api-create";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import ResultModal from "../result_modal/resultModal";
 import moment from "moment";
 import clsx from "clsx";
-
+import icon_home from "../../../asset/img/icon-home.png";
 interface QuizProps {
   quizTitle: string;
   listData: any;
@@ -68,10 +68,21 @@ export default function QuestionsQuiz(props: QuizProps) {
       clearInterval(timer);
     };
   }, [count]);
+  const navigate = useNavigate();
   return (
     <>
       <Container>
         <div className="flex flex-row gap-2">
+          <div>
+            <img
+              src={icon_home}
+              alt=""
+              className="w-[100px] h-[100px] cursor-pointer"
+              onClick={() => {
+                navigate("/users");
+              }}
+            />
+          </div>
           <div className="w-2/3 border-4 border-[#605f5f] h-[80vh] p-4">
             <div className="text-[2rem] font-semibold my-3 text-[#29c0db]">
               {quizTitle}

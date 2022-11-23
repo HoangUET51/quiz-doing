@@ -3,6 +3,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { logout } from "../../../api/apiCreate/api-create";
 import { requestDataSuccess } from "../../../redux/useSlice/useSlice";
 
 interface HeaderHomePageProps {
@@ -12,7 +14,8 @@ interface HeaderHomePageProps {
 export default function HeaderHomePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const account = useSelector((state: any) => state.users.account);
+  const account = useSelector((state: any) => state.users.account);
+  console.log("check ", account);
   const isAuthentication = useSelector(
     (state: any) => state.users.isAuthentication
   );
@@ -22,9 +25,15 @@ export default function HeaderHomePage() {
   const handleSignUp = () => {
     navigate("/signup");
   };
-  const handleLogout = () => {
-    navigate("/login");
-    dispatch(requestDataSuccess());
+  const handleLogout = async () => {
+    let res = await logout(account.email, account.refresh_token);
+    if (res.EC === 0) {
+      toast.success(res.EM);
+      navigate("/login");
+      dispatch(requestDataSuccess());
+    } else {
+      toast.error(res.EM);
+    }
   };
 
   return (
