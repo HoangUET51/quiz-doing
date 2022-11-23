@@ -175,6 +175,17 @@ const assignQuizForUser = (
   return axios.post("api/v1/quiz-assign-to-user", { quizId, userId });
 };
 
+const logout = (
+  email: any,
+  refresh_token: any
+): Promise<AxiosResponse<any, any>> => {
+  return axios.post("api/v1/logout", { email, refresh_token });
+};
+
+const dashBoardOverview = (): Promise<AxiosResponse<any, any>> => {
+  return axios.get("api/v1/overview");
+};
+
 export {
   PostApiCreate,
   GetApiUsers,
@@ -196,4 +207,6 @@ export {
   updateQuiz,
   updateQuestion,
   assignQuizForUser,
+  logout,
+  dashBoardOverview,
 };
