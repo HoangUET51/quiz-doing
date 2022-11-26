@@ -1,23 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "../../parts/button/button";
+import { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
-import { getQuizByUsers } from "../../../api/apiCreate/api-create";
 import { useNavigate } from "react-router-dom";
+import { getQuizByUsers } from "../../../api/apiCreate/api-create";
+import { Button } from "../../parts/button/button";
+
 const CartQuiz = () => {
   const [listQuiz, setListQuiz] = useState<any[]>([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     getListQuiz();
   }, []);
+
   const getListQuiz = async () => {
     let res = await getQuizByUsers();
     if (res && res.EC === 0) {
       setListQuiz(res.DT);
     }
   };
+
   const handleStartNow = (id: any, title: any) => {
     navigate(`/quiz/${id}`, { state: { quizTitle: title } });
   };
+
   return (
     <Container>
       <div className="flex flex-row gap-5 mt-5 flex-wrap">

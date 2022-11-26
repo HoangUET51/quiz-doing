@@ -1,23 +1,23 @@
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
-import { Button } from "../../../components/parts/button/button";
-import {
-  getAllQuiz,
-  createQuestion,
-  createAnswer,
-  getAllQuestions,
-  updateQuestion,
-} from "../../../api/apiCreate/api-create";
-import TableQuestion from "../../parts/table_question/table_question";
+import _ from "lodash";
+import { useEffect, useState } from "react";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
+import Select from "react-select";
+import { toast } from "react-toastify";
+import {
+  createAnswer,
+  createQuestion,
+  getAllQuestions,
+  getAllQuiz,
+  updateQuestion,
+} from "../../../api/apiCreate/api-create";
 import iconImg from "../../../asset/img/add-img.png";
 import iconPlus from "../../../asset/img/plus.png";
 import iconSub from "../../../asset/img/subtract.png";
-import _ from "lodash";
-import Select from "react-select";
-import { toast } from "react-toastify";
-import Modal from "react-bootstrap/Modal";
+import { Button } from "../../../components/parts/button/button";
+import TableQuestion from "../../parts/table_question/table_question";
 const { v4: uuidv4 } = require("uuid");
 
 export default function AddQuestion() {
@@ -189,7 +189,7 @@ export default function AddQuestion() {
   const handleGetAllQuiz = async () => {
     let res = await getAllQuiz();
     if (res && res.EC === 0) {
-      let newQuizs = res.DT.map((item: any, index: any) => {
+      let newQuizs = res.DT.map((item: any) => {
         return {
           value: item.id,
           label: `${item.id}-${item.description} `,
@@ -323,15 +323,13 @@ export default function AddQuestion() {
                 >
                   <img src={iconPlus} alt="icon add" />
                 </div>
-                {listQuestionA.length > 1 ? (
+                {listQuestionA.length > 1 && (
                   <div
                     className="w-[40px] h-[40px] mt-2 ml-2"
                     onClick={() => handleAddRemove("REMOVE", item.id)}
                   >
                     <img src={iconSub} alt="icon add" />
                   </div>
-                ) : (
-                  <></>
                 )}
               </div>
               {item.answers &&
@@ -380,7 +378,7 @@ export default function AddQuestion() {
                     >
                       <img src={iconPlus} alt="icon add" />
                     </div>
-                    {item.answers.length > 1 ? (
+                    {item.answers.length > 1 && (
                       <div
                         className="w-[40px] h-[40px] mt-2 ml-2"
                         onClick={() =>
@@ -389,8 +387,6 @@ export default function AddQuestion() {
                       >
                         <img src={iconSub} alt="icon add" />
                       </div>
-                    ) : (
-                      <></>
                     )}
                   </div>
                 ))}

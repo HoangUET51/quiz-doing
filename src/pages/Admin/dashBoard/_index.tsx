@@ -17,6 +17,25 @@ import power from "../../../asset/img/power1.png";
 export default function DashBoard() {
   const navigate = useNavigate();
   const account = useSelector((state: any) => state.users.account);
+  const data = [
+    { name: "Users", uv: 400, pv: 2400, amt: 2400 },
+    { name: "Quizs", uv: 200, pv: 1400, amt: 400 },
+    { name: "Questions", uv: 1000, pv: 5400, amt: 900 },
+    { name: "Answers", uv: 700, pv: 3000, amt: 1200 },
+  ];
+  const [dashBoard, setDashBoard] = useState<any>();
+
+  useEffect(() => {
+    getDashBoardOverview();
+  }, []);
+
+  const getDashBoardOverview = async () => {
+    let res = await dashBoardOverview();
+    if (res.EC === 0) {
+      setDashBoard(res.DT);
+    }
+  };
+
   const handleLogout = async () => {
     let res = await logout(account.email, account.refresh_token);
     if (res.EC === 0) {
@@ -26,29 +45,7 @@ export default function DashBoard() {
       toast.error(res.EM);
     }
   };
-  const data = [
-    { name: "Users", uv: 400, pv: 2400, amt: 2400 },
-    { name: "Quizs", uv: 200, pv: 1400, amt: 400 },
-    { name: "Questions", uv: 1000, pv: 5400, amt: 900 },
-    { name: "Answers", uv: 700, pv: 3000, amt: 1200 },
-  ];
-  const [dashBoard, setDashBoard] = useState<any>();
-  useEffect(() => {
-    getDashBoardOverview();
-  }, []);
-  const getDashBoardOverview = async () => {
-    let res = await dashBoardOverview();
-    if (res.EC === 0) {
-      setDashBoard(res.DT);
-    }
-  };
-  const defaultProps = {
-    center: {
-      lat: 10.99835602,
-      lng: 77.01502627,
-    },
-    zoom: 11,
-  };
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row-reverse">

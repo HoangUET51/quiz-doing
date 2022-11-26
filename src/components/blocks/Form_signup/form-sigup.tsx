@@ -1,16 +1,18 @@
-import React, { useState } from "react";
+import clsx from "clsx";
+import { useState } from "react";
+import { GoogleLogin } from "react-google-login";
+import { useNavigate } from "react-router-dom";
 import avatar from "../../../asset/img/avatar.jpg";
+import eyeIcon from "../../../asset/img/eye.png";
+import eyefIcon from "../../../asset/img/eyef.png";
+import google from "../../../asset/img/google.png";
+import microsoft from "../../../asset/img/Microsoft_logo.svg.png";
 import { Button } from "../../parts/button/button";
 import { FormControl } from "../../parts/form-control/form-control";
 import { Input } from "../../parts/input/input";
-import google from "../../../asset/img/google.png";
-import microsoft from "../../../asset/img/Microsoft_logo.svg.png";
-import { GoogleLogin } from "react-google-login";
-import { useNavigate } from "react-router-dom";
-import eyeIcon from "../../../asset/img/eye.png";
-import eyefIcon from "../../../asset/img/eyef.png";
-import clsx from "clsx";
+
 interface FormSignUpProps {}
+
 export default function FormSignUp(props: FormSignUpProps) {
   const responseGoogle = (response: any) => {};
   const navigate = useNavigate();
@@ -18,9 +20,11 @@ export default function FormSignUp(props: FormSignUpProps) {
     navigate("/login");
   };
   const [showPass, setShowPass] = useState<boolean>(false);
+
   const handleShowPass = () => {
     setShowPass(!showPass);
   };
+
   return (
     <div className="flex flex-row overflow-y-hidden">
       <div className="w-1/2 h-[100vh] bg-[#026451] flex flex-col justify-center items-center">

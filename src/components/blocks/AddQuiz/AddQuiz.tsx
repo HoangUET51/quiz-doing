@@ -17,10 +17,12 @@ import { toast } from "react-toastify";
 import { TableQuiz } from "../../parts/table_quiz/table_quiz";
 import ModalUpdateQuiz from "../ModalEditQuiz/modal-edit-quiz";
 import { Accordion } from "react-bootstrap";
+
 interface InitialValueAdd {
   name: string;
   description: string;
 }
+
 export default function AddQuiz() {
   const [show, setShow] = useState<any>(false);
   const formRef = React.createRef<FormikContextType<InitialValueAdd>>();
@@ -85,7 +87,7 @@ export default function AddQuiz() {
     let res = await getAllQuiz();
     if (res && res.EC === 0) {
       setListQuiz(res.DT);
-      let newQuizs = res.DT.map((item: any, index: any) => {
+      let newQuizs = res.DT.map((item: any) => {
         return {
           value: item.id,
           label: `${item.id}-${item.description} `,
@@ -100,7 +102,7 @@ export default function AddQuiz() {
   const handleGetAllUser = async () => {
     let res = await GetApiUsers();
     if (res.EC === 0) {
-      let newUsers = res.DT.map((item: any, index: any) => {
+      let newUsers = res.DT.map((item: any) => {
         return {
           value: item.id,
           label: `${item.id}-${item.email}`,
@@ -130,15 +132,17 @@ export default function AddQuiz() {
       image
     );
     if (res && res.EC === 0) {
+      toast.success(res.EM);
       handleGetAllQuiz();
     } else {
-      toast.error(res.DT.EM);
+      toast.error(res.EM);
     }
     setImage("");
     setSelectedOption({
       value: "EASY",
       label: "EASY",
     });
+
     formRef.current?.resetForm();
   };
 
@@ -156,6 +160,7 @@ export default function AddQuiz() {
     setShow(true);
     setCurrentEditQuiz(quiz);
   };
+
   return (
     <Accordion defaultActiveKey="0">
       <Accordion.Item eventKey="0">
@@ -224,7 +229,11 @@ export default function AddQuiz() {
                     onChange={(e) => handleImage(e)}
                   />
                 </div>
-                <Button label="Save" onClick={handleCreateQuiz} />
+                <Button
+                  label="Save"
+                  onClick={handleCreateQuiz}
+                  className="mb-3"
+                />
               </form>
 
               <TableQuiz

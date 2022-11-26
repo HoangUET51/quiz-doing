@@ -5,11 +5,13 @@ import * as Yup from "yup";
 import { PostRegister } from "../../api/apiCreate/api-create";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+
 interface InitalValue {
   emaiSignUp: string;
   passwordSignUp: string;
   userName: string;
 }
+
 export default function SignUp() {
   const navigate = useNavigate();
   const formRef = React.createRef<FormikContextType<InitalValue>>();
@@ -18,6 +20,7 @@ export default function SignUp() {
     passwordSignUp: "",
     userName: "",
   };
+
   const validationSchema = Yup.object().shape({
     emaiSignUp: Yup.string()
       .required("Please enter your email address")
