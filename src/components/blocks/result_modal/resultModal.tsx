@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
+
 interface QuestionProps {
   show: boolean;
   setShow: any;
@@ -10,17 +11,21 @@ interface QuestionProps {
   count: any;
   handleFinish: () => void;
 }
+
 export default function ResultModal(props: QuestionProps) {
   const { show, setShow, result, count, handleFinish } = props;
+
   useEffect(() => {
     if (count === 0) {
       setShow(true);
       handleFinish();
     }
   }, [count]);
+
   const handleClose = () => {
     setShow(false);
   };
+
   return (
     <div>
       <Modal

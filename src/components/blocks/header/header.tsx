@@ -6,25 +6,27 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logout } from "../../../api/apiCreate/api-create";
 import { requestDataSuccess } from "../../../redux/useSlice/useSlice";
-
-interface HeaderHomePageProps {
-  self: any;
-}
+import { useState } from "react";
+import ModalProFile from "../Modal-Profile/modal-profile";
 
 export default function HeaderHomePage() {
+  const [show, setShow] = useState<any>(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const account = useSelector((state: any) => state.users.account);
-  console.log("check ", account);
   const isAuthentication = useSelector(
     (state: any) => state.users.isAuthentication
   );
+
   const handleLogin = () => {
     navigate("/login");
   };
+
   const handleSignUp = () => {
     navigate("/signup");
   };
+
   const handleLogout = async () => {
     let res = await logout(account.email, account.refresh_token);
     if (res.EC === 0) {
@@ -34,6 +36,10 @@ export default function HeaderHomePage() {
     } else {
       toast.error(res.EM);
     }
+  };
+
+  const handleSetting = () => {
+    setShow(true);
   };
 
   return (
@@ -70,7 +76,9 @@ export default function HeaderHomePage() {
             </Nav>
           ) : (
             <Nav>
-              <button className="btn-login">Setting</button>
+              <button className="btn-login" onClick={handleSetting}>
+                Setting
+              </button>
               <button className="btn-signup" onClick={handleLogout}>
                 Log out
               </button>
@@ -78,6 +86,7 @@ export default function HeaderHomePage() {
           )}
         </Navbar.Collapse>
       </Container>
+      <ModalProFile show={show} setShow={setShow} account={account} />
     </Navbar>
   );
 }

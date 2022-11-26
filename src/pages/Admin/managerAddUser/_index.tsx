@@ -1,15 +1,14 @@
-import AddNewModal from "../../../components/blocks/managerModal/managerModal";
-import { TableUser } from "../../../components/parts/table/table";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import {
   DeleteUser,
-  GetApiUsers,
   GetApiUsersWithPanigate,
 } from "../../../api/apiCreate/api-create";
-import { toast } from "react-toastify";
+import AddNewModal from "../../../components/blocks/managerModal/managerModal";
+import { TableUser } from "../../../components/parts/table/table";
 
 enum LIMIT_USER {
-  limit = 3,
+  limit = 5,
 }
 
 const ManagerUser = () => {

@@ -7,6 +7,7 @@ import { PostApiCreate, PutApiUser } from "../../../api/apiCreate/api-create";
 import { Button } from "../../parts/button/button";
 import { FormControl } from "../../parts/form-control/form-control";
 import { Input } from "../../parts/input/input";
+
 interface AddNewProps {
   show: any;
   handleShow: () => void;
@@ -36,6 +37,7 @@ const AddNewModal = (props: AddNewProps) => {
     password: "",
     username: "",
   };
+
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("Required field").email(),
     password: Yup.string()
@@ -43,6 +45,7 @@ const AddNewModal = (props: AddNewProps) => {
       .min(8, "Your password is too short."),
     username: Yup.string().required("Required field"),
   });
+
   const {
     show,
     handleShow,
@@ -124,8 +127,8 @@ const AddNewModal = (props: AddNewProps) => {
     >
       <Form>
         <Button
-          label="Launch demo modal"
-          width="180px"
+          label="Add New User"
+          width="150px"
           className="mb-3"
           onClick={handleShow}
         />
@@ -219,7 +222,11 @@ const AddNewModal = (props: AddNewProps) => {
               </div>
               <div className="col-md-12 border border-info rounded-4 text-center h-[200px] d-flex justify-center">
                 {preview.length > 0 ? (
-                  <img src={preview} style={{ height: "100%", width: "50%" }} />
+                  <img
+                    src={preview}
+                    style={{ height: "100%", width: "50%" }}
+                    alt="preview"
+                  />
                 ) : (
                   <div className="d-flex justify-center items-center self-center">
                     Preview Image

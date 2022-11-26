@@ -1,13 +1,15 @@
 import _ from "lodash";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { getQuestionsByQuiz } from "../../../api/apiCreate/api-create";
 import QuestionsQuiz from "../../../components/blocks/questionQuiz/questionQuiz";
+
 const QuestionQuiz = () => {
   const quizId = useParams().id;
   const location = useLocation();
   const { quizTitle } = location.state;
   const [listData, setListData] = useState<any>([]);
+
   useEffect(() => {
     fetchQuestionQuiz();
   }, [quizId]);
@@ -50,6 +52,7 @@ const QuestionQuiz = () => {
       setListData(listDataClone);
     }
   };
+
   return (
     <div className="mt-10">
       <QuestionsQuiz

@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +6,7 @@ const HomePage = () => {
     (state: any) => state.users.isAuthentication
   );
   const navigate = useNavigate();
+
   const handleStart = () => {
     if (isAuthentication) {
       navigate("/users");
@@ -14,6 +14,7 @@ const HomePage = () => {
       navigate("/login");
     }
   };
+
   return (
     <>
       <div className="homepage-container relative">

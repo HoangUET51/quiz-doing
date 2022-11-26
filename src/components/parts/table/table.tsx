@@ -1,6 +1,7 @@
 import Table from "react-bootstrap/Table";
 import ReactPaginate from "react-paginate";
 import { Button } from "../button/button";
+
 interface TableUserProps {
   listUser: any[];
   handleEditUser: (e: any) => void;
@@ -10,6 +11,7 @@ interface TableUserProps {
   getListUserPanigate: (page: any) => void;
   setCurrentPage: any;
 }
+
 export function TableUser(props: TableUserProps) {
   const {
     listUser,
@@ -20,10 +22,12 @@ export function TableUser(props: TableUserProps) {
     getListUserPanigate,
     setCurrentPage,
   } = props;
+
   const handlePageClick = (event: any) => {
     setCurrentPage(+event.selected + 1);
     getListUserPanigate(+event.selected + 1);
   };
+
   return (
     <>
       <Table striped bordered hover>

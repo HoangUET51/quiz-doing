@@ -1,4 +1,3 @@
-import React from "react";
 import AddQuiz from "../../../components/blocks/AddQuiz/AddQuiz";
 
 export default function ManagerQuestions() {

@@ -8,11 +8,13 @@ import ResultModal from "../result_modal/resultModal";
 import moment from "moment";
 import clsx from "clsx";
 import icon_home from "../../../asset/img/icon-home.png";
+
 interface QuizProps {
   quizTitle: string;
   listData: any;
   handleCheckBox: (e: any, answersId: any, questionId: any) => void;
 }
+
 interface PayLoad {
   quizId: number;
   answers: any[];
@@ -24,11 +26,14 @@ export default function QuestionsQuiz(props: QuizProps) {
   const [result, setResult] = useState<any>({});
   const { quizTitle, listData, handleCheckBox } = props;
   const quizId: any = useParams().id;
+  const navigate = useNavigate();
+
   const handleFinish = async () => {
     let payLoad: PayLoad = {
       quizId: +quizId,
       answers: [],
     };
+
     if (listData && listData.length > 0) {
       let answer: any[] = [];
       listData.map((item: any) => {
@@ -45,8 +50,10 @@ export default function QuestionsQuiz(props: QuizProps) {
           });
         }
       });
+
       payLoad.answers = answer;
     }
+
     let res = await postSubmit(payLoad);
     if (res && res.EC === 0) {
       setShow(true);
@@ -68,7 +75,7 @@ export default function QuestionsQuiz(props: QuizProps) {
       clearInterval(timer);
     };
   }, [count]);
-  const navigate = useNavigate();
+
   return (
     <>
       <Container>
@@ -87,7 +94,8 @@ export default function QuestionsQuiz(props: QuizProps) {
             <div className="text-[2rem] font-semibold my-3 text-[#29c0db]">
               {quizTitle}
             </div>
-            {listData && listData.length ? (
+            {listData &&
+              listData.length &&
               listData.map((it: any, idx: any) => (
                 <div key={idx}>
                   <h1 className="text-[1.3rem] font-bold my-2">{`Quiz ${it.questionId}: ${it.questionDecription} ?`}</h1>
@@ -112,10 +120,7 @@ export default function QuestionsQuiz(props: QuizProps) {
                       ))}
                   </ul>
                 </div>
-              ))
-            ) : (
-              <></>
-            )}
+              ))}
 
             <div className="flex flex-row content-center mt-3">
               <Button label="Finish" onClick={handleFinish} />
@@ -133,6 +138,7 @@ export default function QuestionsQuiz(props: QuizProps) {
                   );
                   return (
                     <p
+                      key={index}
                       className={clsx(
                         "flex border-2 rounded-full w-[50px] h-[50px] justify-center items-center hover:text-[red] cursor-pointer",
                         { "bg-[#dfea09]": check }
